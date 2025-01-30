@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT Бот Telegram</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script>
+        // Расширенная локальная база префиксов для операторов
+        const phonePrefixes = {
+            "7": { // Россия
+                "916": "МТС",
+                "903": "Билайн",
+                "908": "Мегафон",
+                "900": "Теле2",
+                "905": "МТС",
+                "906": "Мегафон",
+                "909": "Билайн",
+                "910": "МТС",
+                "912": "Мегафон",
+                "913": "Теле2",
+                "914": "Билайн",
+                "915": "МТС",
+                "917": "Мегафон",
+                "918": "Теле2",
+                "919": "МТС",
+                "920": "Мегафон",
+                "921": "Теле2",
+                "922": "Билайн",
+                "923": "МТС",
+                "924": "Мегафон",
+                "925": "Теле2",
+                "926": "Билайн",
+                "927": "МТС",
+                "928": "Мегафон",
+                "929": "Теле2",
+                "930": "Билайн"
+            },
+            "1": { // США
+                "202": "AT&T",
+                "212": "Verizon",
+                "213": "T-Mobile",
+                "310": "AT&T",
+                "323": "Verizon",
+                "408": "T-Mobile",
+                "415": "AT&T",
+                "818": "Verizon"
+            },
+            "44": { // Великобритания
+                "791": "EE",
+                "793": "Vodafone",
+                "794": "Three",
+                "795": "O2",
+                "796": "Tesco Mobile"
+            },
+            "33": { // Франция
+                "6": "Orange",
+                "7": "SFR",
+                "8": "Bouygues Telecom",
+                "9": "Free Mobile"
+            },
+            "49": { // Германия
+                "15": "Deutsche Telekom",
+                "16": "Vodafone",
+                "17": "O2",
+                "18": "1&1"
+            },
+            "39": { // Италия
+                "3": "TIM",
+                "4": "Vodafone",
+                "5": "Wind Tre",
+                "6": "Fastweb",
+                "7": "Iliad"
+            },
+            "34": { // Испания
+                "6": "Movistar",
+                "7": "Vodafone",
+                "9": "Orange"
+            },
+            "55": { // Бразилия
+                "21": "Vivo",
+                "61": "TIM",
+                "71": "Oi",
+                "81": "Claro"
+            },
+            "61": { // Австралия
+                "4": "Telstra",
+                "2": "Optus",
+                "3": "Vodafone"
+            },
+            "64": { // Новая Зеландия
+                "2": "Spark",
+                "3": "Vodafone",
+                "4": "2degrees"
+            }
+        };
+
+        // Функция для поиска информации по номеру телефона
+        function searchNumber() {
+            const number = document.getElementById('phone-number').value.replace(/\D/g, ''); // Убираем все нецифровые символы
+            let country = '';
+            let operator = '';
+
+            if (number.length >= 10) {
+                const countryCode = number.substring(0, 1); // Первые цифры для страны
+                if (phonePrefixes[countryCode]) {
+                    // Проверяем, если код страны найден в базе
+                    const operatorCode = number.substring(1, 4); // Берем первые три цифры после кода страны
+                    if (phonePrefixes[countryCode][operatorCode]) {
+                        country = getCountryName(countryCode); // Получаем название страны
+                        operator = phonePrefixes[countryCode][operatorCode];
+                    } else {
+                        country = 'Неизвестно';
+                        operator = 'Неизвестно';
+                    }
+                } else {
+                    country = 'Неизвестно';
+                    operator = 'Неизвестно';
+                }
+
+                // Отображаем результат
+                document.getElementById('result').innerHTML = `
+                    📞 Номер: +${number}<br>
+                    🌍 Страна: ${country}<br>
+                    📡 Оператор: ${operator}`;
+                document.getElementById('more-info-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('result').innerHTML = "Введите полный номер.";
+                document.getElementById('more-info-btn').classList.add('hidden');
+            }
+        }
+
+        // Функция для получения названия страны по коду
+        function getCountryName(code) {
+            switch (code) {
+                case '7': return 'Россия';
+                case '1': return 'США';
+                case '44': return 'Великобритания';
+                case '33': return 'Франция';
+                case '49': return 'Германия';
+                case '39': return 'Италия';
+                case '34': return 'Испания';
+                case '55': return 'Бразилия';
+                case '61': return 'Австралия';
+                case '64': return 'Новая Зеландия';
+                default: return 'Неизвестно';
+            }
+        }
+
+        // Функция для перенаправления в бота
+        function redirectToBot() {
+            window.location.href = "https://t.me/vektor_official_bot"; // ссылка на ваш бот
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="min-h-screen flex items-center justify-center px-4">
+        <div class="max-w-4xl w-full bg-gray-800 p-10 rounded-2xl shadow-2xl">
+            <h1 class="text-4xl font-bold text-center mb-6 text-blue-400">ВЕКТОР OSINT</h1>
+            <p class="text-lg text-center text-gray-300">Совершенно бесплатный инструмент для мгновенного поиска по миллионам записей.</p>
+            
+            <div class="flex justify-center my-6">
+                <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_jtbfg2nb.json"  background="transparent"  speed="1"  style="width: 200px; height: 200px;"  loop  autoplay></lottie-player>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <h2 class="text-2xl font-semibold text-blue-300 mb-4">Введите номер телефона для поиска</h2>
+                <input id="phone-number" type="text" placeholder="Введите номер..." class="w-full p-3 rounded-lg text-gray-900">
+                <button onclick="searchNumber()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg transform hover:scale-105">
+                    Найти информацию
+                </button>
+                <div id="result" class="mt-4 text-gray-300"></div>
+                <button id="more-info-btn" onclick="redirectToBot()" class="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg transform hover:scale-105 hidden">
+                    Точная информация в боте
+                </button>
+            </div>
+            
+            <div class="mt-6">
+                <h2 class="text-2xl font-semibold text-blue-300 mb-4">Почему стоит выбрать нас?</h2>
+                <p class="text-gray-300">Наш бот предлагает невероятную скорость поиска, удобный интерфейс и полную конфиденциальность. В отличие от других сервисов, он полностью бесплатный и доступен 24/7.
+База данных охватывает широкий спектр префиксов, что позволяет эффективно искать информацию о практически любом человеке по его номеру телефона и другим данным.</p>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <a href="https://t.me/vektor_official_bot" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg transform hover:scale-105">
+                    Начать поиск в боте
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
