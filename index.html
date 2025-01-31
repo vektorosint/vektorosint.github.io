@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Мета-теги для SEO -->
     <meta name="description" content="Проверка номера телефона онлайн, информация о владельце номера, определение оператора и страны. Быстрый анализ номеров, инструмент OSINT для поиска по номеру телефона.">
     <meta name="keywords" content="проверить номер телефона, глаз бога, анализ номера, OSINT, проверка номера, телефонный анализ, информация о владельце номера, номер телефона, операторы, страны, бесплатный поиск">
     <meta name="author" content="Vektor OSINT">
@@ -17,7 +16,6 @@
     <meta name="twitter:description" content="Быстрая проверка номера телефона, информация о владельце номера и операторе.">
     <meta name="twitter:image" content="https://your-site.com/your-image.jpg">
     
-    <!-- Структурированные данные для поисковиков -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -86,22 +84,22 @@
                 "929": "Теле2",
                 "930": "Билайн"
             },
-            // Добавьте другие префиксы стран, если нужно
+
         };
 
-        // Функция для поиска информации по номеру телефона
+
         function searchNumber() {
-            const number = document.getElementById('phone-number').value.replace(/\D/g, ''); // Убираем все нецифровые символы
+            const number = document.getElementById('phone-number').value.replace(/\D/g, ''); 
             let country = '';
             let operator = '';
 
             if (number.length >= 10) {
-                const countryCode = number.substring(0, 1); // Первые цифры для страны
+                const countryCode = number.substring(0, 1);
                 if (phonePrefixes[countryCode]) {
-                    // Проверяем, если код страны найден в базе
-                    const operatorCode = number.substring(1, 4); // Берем первые три цифры после кода страны
+
+                    const operatorCode = number.substring(1, 4); 
                     if (phonePrefixes[countryCode][operatorCode]) {
-                        country = getCountryName(countryCode); // Получаем название страны
+                        country = getCountryName(countryCode); 
                         operator = phonePrefixes[countryCode][operatorCode];
                     } else {
                         country = 'Неизвестно';
@@ -112,7 +110,6 @@
                     operator = 'Неизвестно';
                 }
 
-                // Отображаем результат
                 document.getElementById('result').innerHTML = 
                     `📞 Номер: +${number}<br>
                     🌍 Страна: ${country}<br>
@@ -124,7 +121,6 @@
             }
         }
 
-        // Функция для получения названия страны по коду
         function getCountryName(code) {
             switch (code) {
                 case '7': return 'Россия';
@@ -132,9 +128,8 @@
             }
         }
 
-        // Функция для перенаправления в бота
         function redirectToBot() {
-            window.location.href = "https://t.me/vektor_official_bot"; // ссылка на ваш бот
+            window.location.href = "https://t.me/vektor_official_bot";
         }
     </script>
 </head>
@@ -144,12 +139,10 @@
             <h1 class="text-4xl font-bold text-center mb-6 text-blue-400">ВЕКТОР OSINT</h1>
             <p class="text-lg text-center text-gray-300 mb-6">Совершенно бесплатный инструмент для мгновенного поиска по миллионам записей.</p>
 
-            <!-- Логотип или анимация -->
             <div class="flex justify-center my-6">
                 <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_jtbfg2nb.json" background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay></lottie-player>
             </div>
 
-            <!-- Ввод номера -->
             <div class="mt-6 text-center">
                 <h2 class="text-2xl font-semibold text-blue-300 mb-4">Введите номер телефона для поиска</h2>
                 <input id="phone-number" type="text" placeholder="Введите номер..." class="w-full p-3 rounded-lg text-gray-900">
@@ -179,7 +172,6 @@
                 </div>
             </section>
 
-            <!-- Часто задаваемые вопросы -->
             <section class="mt-6">
                 <h2 class="text-2xl font-semibold text-blue-300 mb-4">Часто задаваемые вопросы</h2>
                 <div class="bg-gray-700 p-6 rounded-lg mb-4">
@@ -190,7 +182,6 @@
                 </div>
             </section>
 
-<!-- Контакты -->
 <section class="mt-6 text-center">
     <h2 class="text-2xl font-semibold text-blue-300 mb-4">Контакты</h2>
     <p class="text-gray-300 mb-2">Свяжитесь с нами:</p>
